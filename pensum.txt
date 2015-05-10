@@ -5,6 +5,9 @@ Kapittel 2, unntatt 2.1.4, 2.2.4, 2.3.2, 2.4 og 2.5
 Kapittel 3, unntatt 3.3.4, 3.3.5, 3.4.2 og 3.5.3
 Kapittel 4, unntatt 4.1.6, 4.1.7, 4.3 og 4.4
 
+http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-4.html
+http://community.schemewiki.org/?SICP-Solutions
+
    1  Building Abstractions with Procedures
         1.1  The Elements of Programming
             1.1.1  Expressions
