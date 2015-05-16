@@ -14,6 +14,6 @@
   (lambda (key-val frames)
     (let ((pair (assoc (car key-val) (car frames))))
       (if pair
-	      (set-cdr! pair (cdr key-val))
-	      (set-car! frames (cons key-val (car frames)))))))
+      	(set-cdr! pair (cdr key-val))
+      	(set-car! frames (cons key-val (car frames)))))))
 
