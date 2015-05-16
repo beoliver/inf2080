@@ -19,6 +19,8 @@
         (set-car! frames (cons (cons key val) (car frames)))))))
 
 (define set-binding!
+  ;; #{Unspecific} return value
+  ;; will update the FIRST MATCH then exit
   (lambda (key val frames)
     (call-with-current-continuation
      (lambda (return)
