@@ -9,11 +9,23 @@
               (if pair (return (cdr pair)))))
           frames)))))
 
-
-(define update-local-bindings! ;; #{Unspecific} return value
-  (lambda (key-val frames)
-    (let ((pair (assoc (car key-val) (car frames))))
+(define define-binding!
+  ;; #{Unspecific} return value
+  ;; only changes the local frame (ie the car of frames)
+  (lambda (key val frames)
+    (let ((pair (assoc key (car frames))))
       (if pair
-      	(set-cdr! pair (cdr key-val))
-      	(set-car! frames (cons key-val (car frames)))))))
+        (set-cdr! pair val)
+        (set-car! frames (cons (cons key val) (car frames)))))))
 
+(define set-binding!
+  (lambda (key val frames)
+    (call-with-current-continuation
+     (lambda (return)
+       (for-each (lambda (frame)
+                    (let ((pair (assoc key frame)))
+                      (if pair
+                        (begin
+                          (set-cdr! pair val)
+                          (return)))))
+                  frames)))))
