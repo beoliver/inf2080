@@ -1,13 +1,14 @@
 
-(define lookup ;; #{Unspecific} return value if not in frames
-  (lambda (key frames)
+(define lookup-in-frames
+  (lambda (k frames)
     (call-with-current-continuation
       (lambda (return)
-        (for-each 
+        (for-each
           (lambda (frame)
-            (let ((pair (assoc key frame)))
-              (if pair (return (cdr pair)))))
-          frames)))))
+            (let ((pair (assoc k frame)))
+              (if pair (return pair))))
+          frames)
+    	#f))))
 
 (define define-binding!
   ;; #{Unspecific} return value
