@@ -2,9 +2,9 @@
   (call-with-current-continuation
     (lambda (return)
       (for-each (lambda (frame)
-		    (let ((pair (assoc k frame)))
-		      (if pair (return pair))))
-	    frames) #f)))
+        (let ((pair (assoc k frame)))
+          (if pair (return pair))))
+      frames) #f)))
 
 (define (define-variable! key val frames)
   ;; #{Unspecific} return value
@@ -15,24 +15,23 @@
       (set-car! frames (cons (cons key val) (car frames))))))
 
 (define (meta-eval expr env)
-  (cond 
-    ((number? expr) expr)
-	  ((symbol? expr) (cdr (lookup-in-frames expr env)))
-	  ((lambda? expr) (make-procedure expr env))
-	  ((define? expr) (define-variable! (cadr expr) (meta-eval (caddr expr) env) env))
-	  ((application? expr) 
-	    (meta-apply (meta-eval (car expr) env)
-		    (map (lambda (x) (meta-eval x env)) (cdr expr))))
-	  (else "error")))
+  (cond ((number? expr) expr)
+        ((symbol? expr) (cdr (lookup-in-frames expr env)))
+        ((lambda? expr) (make-procedure expr env))
+        ((define? expr) (define-variable! (cadr expr) (meta-eval (caddr expr) env) env))
+        ((application? expr) 
+          (meta-apply 
+            (meta-eval (car expr) env) 
+            (map (lambda (x) (meta-eval x env)) (cdr expr))))
+        (else "error")))
 
 (define (meta-apply proc args)
-  (cond ((primitive-procedure? proc)
-	 (apply-primitive-procedure proc args))
-	((compound-procedure? proc)
-	 (let* ((new-frame (map cons (procedure-parameters proc) args))
-		(extended-env (cons new-frame (procedure-environment proc))))
-	   (eval-sequence (procedure-body proc) extended-env)))
-	(else "error")))
+  (cond ((primitive-procedure? proc) (apply-primitive-procedure proc args))
+        ((compound-procedure? proc) 
+          (let* ((new-frame (map cons (procedure-parameters proc) args))
+                (extended-env (cons new-frame (procedure-environment proc))))
+                (eval-sequence (procedure-body proc) extended-env)))
+        (else "error")))
 
 (define (eval-sequence exps env) ;; only last value is returned
   (if (null? (cdr exps))
