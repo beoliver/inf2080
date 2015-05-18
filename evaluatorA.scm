@@ -1,6 +1,6 @@
 (define (lookup-in-frames k env)
   (if (null? env) #f
-  	(or (assoc k env)
+  	(or (assoc k (car env))
 	      (lookup-in-frames k (cdr env)))))
 
 (define (define-variable! key val frames)
