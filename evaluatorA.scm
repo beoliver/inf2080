@@ -1,10 +1,7 @@
-(define (lookup-in-frames k frames)
-  (call-with-current-continuation
-    (lambda (return)
-      (for-each (lambda (frame)
-        (let ((pair (assoc k frame)))
-          (if pair (return pair))))
-      frames) #f)))
+(define (lookup-in-frames k env)
+  (if (null? env) #f
+  	(or (assoc k env)
+	      (lookup-in-frames k (cdr env)))))
 
 (define (define-variable! key val frames)
   ;; #{Unspecific} return value
