@@ -30,7 +30,7 @@
         ((compound-procedure? proc) 
           (let* ((new-frame (map cons (procedure-parameters proc) args))
                 (extended-env (cons new-frame (procedure-environment proc))))
-                (eval-sequence (procedure-body proc) extended-env)))
+          (eval-sequence (procedure-body proc) extended-env)))
         (else "error")))
 
 (define (eval-sequence exps env) ;; only last value is returned
